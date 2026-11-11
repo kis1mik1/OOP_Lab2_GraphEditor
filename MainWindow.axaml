@@ -1,0 +1,53 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:AnotherGraphEditor.Controls"
+        x:Class="AnotherGraphEditor.MainWindow"
+        Title="Графический редактор — ЛР 2"
+        Width="1150" Height="740"
+        MinWidth="840" MinHeight="560">
+    <Grid RowDefinitions="Auto,*">
+        <Border Grid.Row="0" Padding="12" Background="#F1F5F9" BorderBrush="#CBD5E1" BorderThickness="0,0,0,1">
+            <StackPanel Spacing="8">
+                <WrapPanel Orientation="Horizontal">
+                    <TextBlock Text="Инструменты:" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,8,4" />
+                    <Button Click="SelectTool_Click" Margin="0,0,8,4">Выбор</Button>
+                    <Button Click="RectangleTool_Click" Margin="0,0,8,4">Рисовать прямоугольник</Button>
+                    <Button Click="EllipseTool_Click" Margin="0,0,8,4">Рисовать эллипс</Button>
+                </WrapPanel>
+                <WrapPanel Orientation="Horizontal">
+                    <TextBlock Text="Действия:" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,8,4" />
+                    <Button Click="AddRectangle_Click" Margin="0,0,8,4">+ Прямоугольник</Button>
+                    <Button Click="AddEllipse_Click" Margin="0,0,8,4">+ Эллипс</Button>
+                    <Button Click="Delete_Click" Margin="0,0,8,4">Удалить</Button>
+                    <Button Click="Duplicate_Click" Margin="0,0,8,4">Дублировать</Button>
+                    <Button Click="BringToFront_Click" Margin="0,0,8,4">На передний план</Button>
+                    <Button Click="SendToBack_Click" Margin="0,0,8,4">На задний план</Button>
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,260">
+            <Border Grid.Column="0" Margin="12" BorderBrush="#CBD5E1" BorderThickness="1" Background="White">
+                <controls:DrawingSurface x:Name="Surface" />
+            </Border>
+
+            <Border Grid.Column="1" Background="#F8FAFC" BorderBrush="#CBD5E1" BorderThickness="1,0,0,0" Padding="14">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Свойства фигуры" FontSize="18" FontWeight="SemiBold" />
+                    <TextBlock x:Name="SelectedInfo" Text="Фигура не выбрана" TextWrapping="Wrap" />
+                    <TextBlock Text="Цвет заливки (#RRGGBB)" />
+                    <TextBox x:Name="FillColorInput" PlaceholderText="#90CAF9" />
+                    <TextBlock Text="Цвет границы (#RRGGBB)" />
+                    <TextBox x:Name="StrokeColorInput" PlaceholderText="#1E40AF" />
+                    <TextBlock Text="Толщина границы" />
+                    <NumericUpDown x:Name="StrokeThicknessInput" Minimum="0" Maximum="20" Increment="1" Value="2" />
+                    <Button Click="ApplyProperties_Click" HorizontalAlignment="Stretch">Применить</Button>
+                    <Border BorderBrush="#CBD5E1" BorderThickness="0,1,0,0" Margin="0,8,0,0" />
+                    <TextBlock Text="Как пользоваться" FontWeight="SemiBold" />
+                    <TextBlock Text="1. Выберите инструмент и протяните мышью по холсту.&#10;2. Вернитесь к инструменту «Выбор».&#10;3. Перетаскивайте фигуру или синие маркеры.&#10;4. Меняйте цвета и толщину границы справа." TextWrapping="Wrap" />
+                    <TextBlock x:Name="StatusText" Text="Режим: выбор" Foreground="#1D4ED8" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
