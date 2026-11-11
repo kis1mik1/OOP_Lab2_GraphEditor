@@ -89,6 +89,13 @@ public class DrawingSurface : Control
         if (_mode == InteractionMode.None || Document.SelectedShape == null)
             return;
 
+        if (!e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+        {
+            FinishInteraction();
+            e.Pointer.Capture(null);
+            return;
+        }
+
         Point point = e.GetPosition(this);
         IShape selected = Document.SelectedShape;
 
@@ -118,6 +125,22 @@ public class DrawingSurface : Control
     {
         base.OnPointerReleased(e);
 
+        if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            return;
+
+        FinishInteraction();
+        e.Pointer.Capture(null);
+        e.Handled = true;
+    }
+
+    protected override void OnPointerCaptureLost(PointerCaptureLostEventArgs e)
+    {
+        base.OnPointerCaptureLost(e);
+        FinishInteraction();
+    }
+
+    private void FinishInteraction()
+    {
         if (_mode == InteractionMode.Drawing && Document.SelectedShape is IShape shape)
         {
             if (shape.Width < MinimumSize || shape.Height < MinimumSize)
@@ -128,9 +151,7 @@ public class DrawingSurface : Control
         }
 
         _mode = InteractionMode.None;
-        e.Pointer.Capture(null);
         InvalidateVisual();
-        e.Handled = true;
     }
 
     private void ResizeSelected(Point point)
@@ -178,16 +199,26 @@ public class DrawingSurface : Control
 
     private ResizeHandle FindHandle(IShape shape, Point point)
     {
+        ResizeHandle closest = ResizeHandle.None;
+        double closestDistance = double.MaxValue;
+
         foreach (var item in GetHandles(shape))
         {
             var area = new Rect(item.Position.X - HandleSize,
                                 item.Position.Y - HandleSize,
                                 HandleSize * 2, HandleSize * 2);
-            if (area.Contains(point))
-                return item.Handle;
+            double dx = point.X - item.Position.X;
+            double dy = point.Y - item.Position.Y;
+            double distance = dx * dx + dy * dy;
+
+            if (area.Contains(point) && distance < closestDistance)
+            {
+                closest = item.Handle;
+                closestDistance = distance;
+            }
         }
 
-        return ResizeHandle.None;
+        return closest;
     }
 
     private (ResizeHandle Handle, Point Position)[] GetHandles(IShape shape)

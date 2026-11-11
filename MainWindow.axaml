@@ -28,25 +28,27 @@
 
         <Grid Grid.Row="1" ColumnDefinitions="*,260">
             <Border Grid.Column="0" Margin="12" BorderBrush="#CBD5E1" BorderThickness="1" Background="White">
-                <controls:DrawingSurface x:Name="Surface" />
+                <controls:DrawingSurface x:Name="Surface" ClipToBounds="True" />
             </Border>
 
             <Border Grid.Column="1" Background="#F8FAFC" BorderBrush="#CBD5E1" BorderThickness="1,0,0,0" Padding="14">
-                <StackPanel Spacing="10">
-                    <TextBlock Text="Свойства фигуры" FontSize="18" FontWeight="SemiBold" />
-                    <TextBlock x:Name="SelectedInfo" Text="Фигура не выбрана" TextWrapping="Wrap" />
-                    <TextBlock Text="Цвет заливки (#RRGGBB)" />
-                    <TextBox x:Name="FillColorInput" PlaceholderText="#90CAF9" />
-                    <TextBlock Text="Цвет границы (#RRGGBB)" />
-                    <TextBox x:Name="StrokeColorInput" PlaceholderText="#1E40AF" />
-                    <TextBlock Text="Толщина границы" />
-                    <NumericUpDown x:Name="StrokeThicknessInput" Minimum="0" Maximum="20" Increment="1" Value="2" />
-                    <Button Click="ApplyProperties_Click" HorizontalAlignment="Stretch">Применить</Button>
-                    <Border BorderBrush="#CBD5E1" BorderThickness="0,1,0,0" Margin="0,8,0,0" />
-                    <TextBlock Text="Как пользоваться" FontWeight="SemiBold" />
-                    <TextBlock Text="1. Выберите инструмент и протяните мышью по холсту.&#10;2. Вернитесь к инструменту «Выбор».&#10;3. Перетаскивайте фигуру или синие маркеры.&#10;4. Меняйте цвета и толщину границы справа." TextWrapping="Wrap" />
-                    <TextBlock x:Name="StatusText" Text="Режим: выбор" Foreground="#1D4ED8" TextWrapping="Wrap" />
-                </StackPanel>
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Свойства фигуры" FontSize="18" FontWeight="SemiBold" />
+                        <TextBlock x:Name="SelectedInfo" Text="Фигура не выбрана" TextWrapping="Wrap" />
+                        <TextBlock Text="Цвет заливки (#RRGGBB)" />
+                        <TextBox x:Name="FillColorInput" PlaceholderText="#90CAF9" />
+                        <TextBlock Text="Цвет границы (#RRGGBB)" />
+                        <TextBox x:Name="StrokeColorInput" PlaceholderText="#1E40AF" />
+                        <TextBlock Text="Толщина границы" />
+                        <NumericUpDown x:Name="StrokeThicknessInput" Minimum="0" Maximum="20" Increment="1" Value="2" />
+                        <Button Click="ApplyProperties_Click" HorizontalAlignment="Stretch">Применить</Button>
+                        <TextBlock x:Name="StatusText" Text="Режим: выбор" Foreground="#1D4ED8" TextWrapping="Wrap" />
+                        <Border BorderBrush="#CBD5E1" BorderThickness="0,1,0,0" Margin="0,8,0,0" />
+                        <TextBlock Text="Как пользоваться" FontWeight="SemiBold" />
+                        <TextBlock Text="1. Выберите инструмент и протяните мышью по холсту.&#10;2. Вернитесь к инструменту «Выбор».&#10;3. Перетаскивайте фигуру или синие маркеры.&#10;4. Меняйте цвета и толщину границы справа." TextWrapping="Wrap" />
+                    </StackPanel>
+                </ScrollViewer>
             </Border>
         </Grid>
     </Grid>

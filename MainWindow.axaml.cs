@@ -76,6 +76,12 @@ public partial class MainWindow : Window
 
     private void BringToFront_Click(object? sender, RoutedEventArgs e)
     {
+        if (_document.SelectedShape == null)
+        {
+            StatusText.Text = "Сначала выберите фигуру";
+            return;
+        }
+
         _document.BringSelectedToFront();
         RefreshCanvas();
         StatusText.Text = "Фигура перемещена на передний план";
@@ -83,6 +89,12 @@ public partial class MainWindow : Window
 
     private void SendToBack_Click(object? sender, RoutedEventArgs e)
     {
+        if (_document.SelectedShape == null)
+        {
+            StatusText.Text = "Сначала выберите фигуру";
+            return;
+        }
+
         _document.SendSelectedToBack();
         RefreshCanvas();
         StatusText.Text = "Фигура перемещена на задний план";
@@ -98,8 +110,8 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (!Color.TryParse(FillColorInput.Text, out Color fill) ||
-            !Color.TryParse(StrokeColorInput.Text, out Color stroke))
+        if (!TryParseColor(FillColorInput.Text, out Color fill) ||
+            !TryParseColor(StrokeColorInput.Text, out Color stroke))
         {
             StatusText.Text = "Цвета должны быть в формате #RRGGBB";
             return;
@@ -110,6 +122,13 @@ public partial class MainWindow : Window
         shape.StrokeThickness = (double)(StrokeThicknessInput.Value ?? 2m);
         Surface.InvalidateVisual();
         StatusText.Text = "Свойства изменены";
+    }
+
+    private static bool TryParseColor(string? text, out Color color)
+    {
+        text = text?.Trim();
+        color = default;
+        return text is { Length: 7 } && text[0] == '#' && Color.TryParse(text, out color);
     }
 
     private void RefreshCanvas()
