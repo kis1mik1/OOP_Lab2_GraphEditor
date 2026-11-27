@@ -29,11 +29,6 @@ public class CanvasDocument
         }
     }
 
-    public void ClearSelection()
-    {
-        SelectedShape = null;
-    }
-
     public void DeleteSelected()
     {
         if (SelectedShape == null)
