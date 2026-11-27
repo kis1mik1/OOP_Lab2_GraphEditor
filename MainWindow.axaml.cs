@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Media;
 using AnotherGraphEditor.Controls;
 using AnotherGraphEditor.Models;
 
@@ -110,25 +109,11 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (!TryParseColor(FillColorInput.Text, out Color fill) ||
-            !TryParseColor(StrokeColorInput.Text, out Color stroke))
-        {
-            StatusText.Text = "Цвета должны быть в формате #RRGGBB";
-            return;
-        }
-
-        shape.FillColor = fill;
-        shape.StrokeColor = stroke;
+        shape.FillColor = FillColorInput.Color;
+        shape.StrokeColor = StrokeColorInput.Color;
         shape.StrokeThickness = (double)(StrokeThicknessInput.Value ?? 2m);
         Surface.InvalidateVisual();
         StatusText.Text = "Свойства изменены";
-    }
-
-    private static bool TryParseColor(string? text, out Color color)
-    {
-        text = text?.Trim();
-        color = default;
-        return text is { Length: 7 } && text[0] == '#' && Color.TryParse(text, out color);
     }
 
     private void RefreshCanvas()
@@ -148,8 +133,8 @@ public partial class MainWindow : Window
         }
 
         SelectedInfo.Text = shape is RectangleShape ? "Прямоугольник" : "Эллипс";
-        FillColorInput.Text = $"#{shape.FillColor.R:X2}{shape.FillColor.G:X2}{shape.FillColor.B:X2}";
-        StrokeColorInput.Text = $"#{shape.StrokeColor.R:X2}{shape.StrokeColor.G:X2}{shape.StrokeColor.B:X2}";
+        FillColorInput.Color = shape.FillColor;
+        StrokeColorInput.Color = shape.StrokeColor;
         StrokeThicknessInput.Value = (decimal)shape.StrokeThickness;
     }
 }
